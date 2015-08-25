@@ -131,8 +131,11 @@ ClassScanner, XmlScanner {
     /* List of protected broadcast strings. This list must be sorted alphabetically.
      * Protected broadcast strings are defined by <protected-broadcast> entries in the
      * manifest of system-level components or applications.
-     * The below list is copied from frameworks/base/core/res/AndroidManifest.xml and
-     * should be periodically updated.
+     * The below list is copied from frameworks/base/core/res/AndroidManifest.xml
+     * and packages/services/Telephony/AndroidManifest.xml .
+     * It should be periodically updated. This list will likely not be complete, since
+     * protected-broadcast entries can be defined elsewhere, but should address
+     * most situations.
      */
     public static final String[] PROTECTED_BROADCASTS = new String[] {
             "android.app.action.ENTER_CAR_MODE",
@@ -216,10 +219,12 @@ ClassScanner, XmlScanner {
             "android.intent.action.ACTION_DEFAULT_VOICE_SUBSCRIPTION_CHANGED",
             "android.intent.action.ACTION_IDLE_MAINTENANCE_END",
             "android.intent.action.ACTION_IDLE_MAINTENANCE_START",
+            "android.intent.action.ACTION_MDN_STATE_CHANGED",
             "android.intent.action.ACTION_POWER_CONNECTED",
             "android.intent.action.ACTION_POWER_DISCONNECTED",
             "android.intent.action.ACTION_SET_RADIO_CAPABILITY_DONE",
             "android.intent.action.ACTION_SET_RADIO_CAPABILITY_FAILED",
+            "android.intent.action.ACTION_SHOW_NOTICE_ECM_BLOCK_OTHERS",
             "android.intent.action.ACTION_SHUTDOWN",
             "android.intent.action.ACTION_SUBINFO_CONTENT_CHANGE",
             "android.intent.action.ACTION_SUBINFO_RECORD_UPDATED",
@@ -235,6 +240,7 @@ ClassScanner, XmlScanner {
             "android.intent.action.CLEAR_DNS_CACHE",
             "android.intent.action.CONFIGURATION_CHANGED",
             "android.intent.action.DATA_CONNECTION_CONNECTED_TO_PROVISIONING_APN",
+            "android.intent.action.DATA_CONNECTION_FAILED",
             "android.intent.action.DATE_CHANGED",
             "android.intent.action.DEVICE_STORAGE_FULL",
             "android.intent.action.DEVICE_STORAGE_LOW",
@@ -243,6 +249,7 @@ ClassScanner, XmlScanner {
             "android.intent.action.DOCK_EVENT",
             "android.intent.action.DREAMING_STARTED",
             "android.intent.action.DREAMING_STOPPED",
+            "android.intent.action.EMERGENCY_CALLBACK_MODE_CHANGED",
             "android.intent.action.EXTERNAL_APPLICATIONS_AVAILABLE",
             "android.intent.action.EXTERNAL_APPLICATIONS_UNAVAILABLE",
             "android.intent.action.HDMI_PLUGGED",
@@ -260,6 +267,8 @@ ClassScanner, XmlScanner {
             "android.intent.action.MEDIA_UNMOUNTED",
             "android.intent.action.MEDIA_UNSHARED",
             "android.intent.action.MY_PACKAGE_REPLACED",
+            "android.intent.action.NETWORK_SET_TIME",
+            "android.intent.action.NETWORK_SET_TIMEZONE",
             "android.intent.action.NEW_OUTGOING_CALL",
             "android.intent.action.PACKAGE_ADDED",
             "android.intent.action.PACKAGE_CHANGED",
@@ -276,10 +285,14 @@ ClassScanner, XmlScanner {
             "android.intent.action.PHONE_STATE",
             "android.intent.action.PROXY_CHANGE",
             "android.intent.action.QUERY_PACKAGE_RESTART",
+            "android.intent.action.RADIO_TECHNOLOGY",
             "android.intent.action.REBOOT",
             "android.intent.action.REQUEST_PERMISSION",
             "android.intent.action.SCREEN_OFF",
             "android.intent.action.SCREEN_ON",
+            "android.intent.action.SERVICE_STATE",
+            "android.intent.action.SIG_STR",
+            "android.intent.action.SIM_STATE_CHANGED",
             "android.intent.action.SUB_DEFAULT_CHANGED",
             "android.intent.action.TIMEZONE_CHANGED",
             "android.intent.action.TIME_SET",
@@ -350,10 +363,14 @@ ClassScanner, XmlScanner {
             "android.os.UpdateLock.UPDATE_LOCK_CHANGED",
             "android.os.action.POWER_SAVE_MODE_CHANGED",
             "android.os.action.POWER_SAVE_MODE_CHANGING",
+            "android.provider.Telephony.SIM_FULL",
+            "android.provider.Telephony.SPN_STRINGS_UPDATED",
             "com.android.bluetooth.pbap.authcancelled",
             "com.android.bluetooth.pbap.authchall",
             "com.android.bluetooth.pbap.authresponse",
             "com.android.bluetooth.pbap.userconfirmtimeout",
+            "com.android.internal.telephony.data-restart-trysetup",
+            "com.android.internal.telephony.data-stall",
             "com.android.nfc_extras.action.AID_SELECTED",
             "com.android.nfc_extras.action.RF_FIELD_OFF_DETECTED",
             "com.android.nfc_extras.action.RF_FIELD_ON_DETECTED",
