@@ -1,30 +1,8 @@
-Copyright 2015 The MITRE Corporation. All rights reserved.
+Android Lint Checks
+===================
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-NOTICE
-
-This software was produced for the U.S. Government under
-Basic Contract No. W15P7T-13-C-A802, and is subject to the Rights
-in Noncommercial Computer Software and Noncommercial Computer
-Software Documentation Clause 252.227-7014 (FEB 2012)
-
-Approved for public release, case 15-1324.
-
-Please send comments or questions to mpeck@mitre.org
-
-DESCRIPTION OF BROADCAST RECEIVER LINT CHECKS:
-
+Broadcast Receiver Security Lint Checks
+---------------------------------------
 We propose two new lint checks to detect insecure broadcast receivers that
 fail to properly check the origin of received intents, potentially making
 the receiver vulnerable to spoofed intents.
@@ -42,8 +20,8 @@ Mobisys '11. https://www.eecs.berkeley.edu/~daw/papers/intents-mobisys11.pdf
 [2] https://commonsware.com/blog/2013/10/06/secured-broadcasts-sms-clients.html
 [3] http://android-developers.blogspot.com/2013/10/getting-your-sms-apps-ready-for-kitkat.html
 
-DESCRIPTION OF TLS LINT CHECK:
-
+TLS TrustManager Lint Check
+---------------------------
 This lint check detects declarations of TLS TrustManagers that do
 not properly check certificates. The check looks for empty
 checkClientTrusted and checkServerTrusted methods as well as
@@ -61,8 +39,8 @@ Man-in-the-Middle Vulnerabilities in Android Apps. NDSS '14.
 [3] FireEye. SSL Vulnerabilities: Who listens when Android applications talk?
 https://www.fireeye.com/blog/threat-research/2014/08/ssl-vulnerabilities-who-listens-when-android-applications-talk.html
 
-HOW TO COMPILE AND INSTALL:
-
+How to Compile and Install
+--------------------------
 General information on writing and compiling custom lint rules can be found at:
 http://tools.android.com/tips/lint-custom-rules
 
@@ -90,8 +68,8 @@ cd ../../..
 jar cmf MANIFEST.MF mitrelint.jar org/mitre/androidlint/*.class
 cp mitrelint.jar ~/.android/lint
 
-USING ANDROID'S LINT CHECKER TO ANALYZE APK FILES:
-
+How to Analyze APK Files
+------------------------
 Android's lint checker is primarily designed for use by developers
 with access to application source. We've demonstrated that it
 can also be used to analyze APKs. (However, only the lint checks
@@ -104,3 +82,37 @@ We provide an example script "lint-apk.sh" demonstrating how
 to analyze APK files using the Android lint checker. It depends on:
 https://github.com/google/enjarify
 https://code.google.com/p/xml-apk-parser/downloads/detail?name=APKParser.jar
+
+Note that many of the lint checks operate on .java files. Those lint checks
+will not report any results since there would not be any .java files
+(just class files and AndroidManifest.xml). Our lint checks operate
+on the .class files so will produce results from "enjarified" APKs.
+
+Copyright
+=========
+Copyright 2015 The MITRE Corporation, All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Other Information
+=================
+NOTICE
+
+This software was produced for the U.S. Government under
+Basic Contract No. W15P7T-13-C-A802, and is subject to the Rights
+in Noncommercial Computer Software and Noncommercial Computer
+Software Documentation Clause 252.227-7014 (FEB 2012)
+
+Approved for public release, case 15-1324.
+
+Please send comments or questions to mpeck@mitre.org
