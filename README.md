@@ -62,7 +62,8 @@ Android's lint checker. They should show up when running
 
 Example commands to compile and install the lint rules using
 javac with the Android SDK installed in ~/sdk:
-```cd src/org/mitre/androidlint
+```
+cd src/org/mitre/androidlint
 javac -cp ~/sdk/tools/lib/lint-api.jar *.java
 cd ../../..
 jar cmf MANIFEST.MF mitrelint.jar org/mitre/androidlint/*.class
