@@ -1,6 +1,14 @@
 Android Lint Checks
 ===================
 
+NOTE
+----
+These lint checks (and others) have been incorporated into the AOSP
+studio-master-dev branch, including improvements suggested by the
+reviewers (that are in AOSP but not here).
+So the code in this repository is now obsolete.
+See https://android-review.googlesource.com/#/q/owner:mpeck%2540mitre.org+status:merged+project:platform/tools/base+branch:studio-master-dev
+
 Broadcast Receiver Security Lint Checks
 ---------------------------------------
 We propose two new lint checks to detect insecure broadcast receivers that
