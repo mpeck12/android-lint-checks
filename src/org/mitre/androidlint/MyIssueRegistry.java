@@ -37,9 +37,7 @@ public class MyIssueRegistry extends IssueRegistry {
 
 	@Override
 	public List<Issue> getIssues() {
-		return Arrays.asList(UnsafeBroadcastReceiverDetector.ACTION_STRING,
-				UnsafeBroadcastReceiverDetector.BROADCAST_SMS,
-				InsecureTLSDetector.ISSUE);
+		return Arrays.asList(UnsafeNativeCodeDetector.LOAD);
 	}
 
 }
