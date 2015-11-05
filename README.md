@@ -3,80 +3,44 @@ Android Lint Checks
 
 NOTE
 ----
-These lint checks (and others) have been incorporated into the AOSP
-studio-master-dev branch, including improvements suggested by the
-reviewers (that are in AOSP but not here).
-So the code in this repository is now obsolete.
+Most of our proposed lint checks have been incorporated into the AOSP
+studio-master-dev branch so have been removed from here.
 See https://android-review.googlesource.com/#/q/owner:mpeck%2540mitre.org+status:merged+project:platform/tools/base+branch:studio-master-dev
+They should appear in a future release of the Android SDK.
+In the mean time, they can still be separately compiled and included in the current
+version of the Android SDK as a jar plugin through the following steps:
 
-Broadcast Receiver Security Lint Checks
----------------------------------------
-We propose two new lint checks to detect insecure broadcast receivers that
-fail to properly check the origin of received intents, potentially making
-the receiver vulnerable to spoofed intents.
-The first check is for broadcast receivers that have declared an intent-filter
-for a protected-broadcast action string but fail to actually check the received
-action string, as described by section 4.3 of [1].
-The second check is for broadcast receivers that have declared an intent-filter
-for the SMS_DELIVER or SMS_RECEIVED action string but fail to ensure
-that the sender holds the BROADCAST_SMS permission [2] [3].
-Note that neither of these checks address dynamically created receivers.
-They only address receivers that are declared in the application manifest.
+* Download the source code for the desired lint checks from the Android Open Source Project, e.g. from https://android.googlesource.com/platform/tools/base/+log/studio-master-dev/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks
+* Place the source code in its own directory tree, e.g. in a directory called “androidlint”
+* Change the package names in the source code to reflect the created directory tree (e.g. change the package entry at the top of each source code file to a value such as “package androidlint;”)
+* Create a MyIssueRegistry.java with contents similar to the below, with an entry in the array for each Issue declared in the lint check source code.
+```
+package androidlint;
 
-* [1] Chin, et al. Analyzing Inter-Application Communication in Android.
-Mobisys '11. https://www.eecs.berkeley.edu/~daw/papers/intents-mobisys11.pdf
-* [2] https://commonsware.com/blog/2013/10/06/secured-broadcasts-sms-clients.html
-* [3] http://android-developers.blogspot.com/2013/10/getting-your-sms-apps-ready-for-kitkat.html
+import java.util.List;
+import java.util.Arrays;
 
-TLS TrustManager Lint Check
----------------------------
-This lint check detects declarations of TLS TrustManagers that do
-not properly check certificates. The check looks for empty
-checkClientTrusted and checkServerTrusted methods as well as
-getAcceptedIssuers methods that always return null or an empty
-array. We do not check if or how the declared TrustManager
-is actually used by the application.
-As documented by numerous sources such as [1] [2] [3], Android
-applications commonly fail to properly check certificates while
-establishing TLS sessions, making them susceptible to MITM attacks.
+import com.android.tools.lint.client.api.IssueRegistry;
+import com.android.tools.lint.detector.api.Issue;
 
-* [1] Fahl, et al. Why Eve and Mallory Love Android: An Analysis of Android SSL (In)Security.
-CCS '12.
-* [2] Sounthiraraj, et al. Large Scale, Automated Detection of SSL/TLS
-Man-in-the-Middle Vulnerabilities in Android Apps. NDSS '14.
-* [3] FireEye. SSL Vulnerabilities: Who listens when Android applications talk?
-https://www.fireeye.com/blog/threat-research/2014/08/ssl-vulnerabilities-who-listens-when-android-applications-talk.html
-
-How to Compile and Install
---------------------------
-General information on writing and compiling custom lint rules can be found at:
-http://tools.android.com/tips/lint-custom-rules
-
-The lint rules can be compiled using javac or by using
-an IDE such as Eclipse (compiling as a standard Java project,
-not an Android application).
-tools/lib/lint-api.jar in the Android SDK must be included when
-building.
-
-The compiled class files should be placed in a .jar file with
-a manifest file containing the text:
+public class MyIssueRegistry extends IssueRegistry {
+	@Override
+	public List<Issue> getIssues() {
+        return Arrays.asList(
+            TrustAllX509TrustManagerDetector.ISSUE,
+            UnsafeBroadcastReceiverDetector.ACTION_STRING);
+	}
+}
+```
+* Compile the lint checks and issue registry, e.g. ```javac –cp <sdk-path>/tools/lib/lint-api.jar *.java``` where <sdk-path> is the installed location of the Android SDK
+* Create a MANIFEST.MF file with contents similar to the below:
+```
 Manifest-Version: 1.0
-Lint-Registry: org.mitre.androidlint.MyIssueRegistry
-
-The jar file should be placed in the ~/.android/lint directory
-(or Windows equivalent). The lint rules will then be used by
-Android's lint checker. They should show up when running
-"lint --list Security".
-
-Example commands to compile and install the lint rules using
-javac with the Android SDK installed in ~/sdk:
+Lint-Registry: androidlint.MyIssueRegistry
 ```
-cd src/org/mitre/androidlint
-javac -cp ~/sdk/tools/lib/lint-api.jar *.java
-cd ../../..
-jar cmf MANIFEST.MF mitrelint.jar org/mitre/androidlint/*.class
-cp mitrelint.jar ~/.android/lint
-```
+* Bundle the compiled lint checks, issue registry, and MANIFEST.MF file into a jar file by running: ```jar cmf MANIFEST.MF custom.jar androidlint/*.class```
+* Create an .android/lint directory under the user’s home directory and copy the jar file to it, e.g. ```cp custom.jar /home/<username>/.android/lint/custom.jar``` on most Linux distributions, or ```copy custom.jar C:\Users\<username>\.android\.lint\custom.jar``` on Windows
+* Run ```lint –list Security``` and verify that the new lint checks appear in the list. They will now be used by default when running lint from the command line (e.g. with ```lint``` or ```gradlew lint```). Unfortunately, additional steps are needed to integrate the lint checks directly into the Android Studio UI.
 
 How to Analyze APK Files
 ------------------------
